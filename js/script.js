@@ -7,51 +7,39 @@ function showPage(list, page) {
    const itemsPerPage = 9;
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = (page * itemsPerPage);
-   let studentList = document.querySelector('ul.student-list');
+   const studentList = document.querySelector('ul.student-list');
    studentList.innerHTML = '';
    
    // Determine if items will display on the active page
    for (let i = 0; i < list.length; i++) {
+      
       // If items are in the page index range
       if (i >= startIndex && i < endIndex) {
-         // Create HTML elements for list items
+         
+         // Display items on page
          const student = list[i];
-         const li = document.createElement('li');
-         const divStudentDetails = document.createElement('div');
-         const img = document.createElement('img');
-         const h3 = document.createElement('h3');
-         const spanEmail = document.createElement('span');
-         const divJoinedDetails = document.createElement('div');
-         const spanJoinedDate = document.createElement('span');
+         studentList.innerHTML += `
+            <li class="student-item">
+               
+               <div class="student-details">
+                  <img class="avatar" src="${student.picture.large}">
+                  <h3>${student.name.first} ${student.name.last}</h3>
+                  <span class="email">${student.email}</span>
+               </div>
 
-         // Set element property values
-         li.className = 'student-item';
-         divStudentDetails.className = 'student-details';
-         img.className = 'avatar';
-         img.src = `${student.picture.large}`;
-         h3.textContent = `${student.name.first} ${student.name.last}`;
-         spanEmail.className = 'email';
-         spanEmail.textContent = `${student.email}`;
-         divJoinedDetails.className = 'joined-details';
-         spanJoinedDate.className = 'date';
-         spanJoinedDate.textContent = `Joined ${student.registered.date}`;
+               <div class="joined-details">
+                  <span class="date">Joined ${student.registered.date}</span>
+               </div>
 
-         // Append elements to list
-         li.appendChild(divStudentDetails);
-         divStudentDetails.appendChild(img);
-         divStudentDetails.appendChild(h3);
-         divStudentDetails.appendChild(spanEmail);
-         li.appendChild(divJoinedDetails);
-         divJoinedDetails.appendChild(spanJoinedDate);
-         studentList.appendChild(li);
-
+            </li>
+            `;
       }
    }
 }
 
 // Function to create and append pagination buttons
 function addPagination(list) {
-   const numberOfPages = Math.ceil((list.length / 9)); // 9 items per page
+   const numberOfPages = Math.ceil((list.length / 9));
    const ul = document.querySelector('ul.link-list');
    ul.innerHTML = ''; // remove buttons previously displayed
 
@@ -103,8 +91,6 @@ function addPagination(list) {
    label.classList.add('student-search');
    span.textContent = 'Search by name';
    input.classList.add('search');
-   // input.id = 'search'; // previously used
-   // input.classList.add('student-search'); // previously used
    input.placeholder = 'Search by name...';
    button.type = 'button';
    button.classList.add('submit');
@@ -166,12 +152,6 @@ function searchForm(searchInput, names) {
 search.addEventListener('keyup', () => {
    searchForm(search, studentNames);
 });
-
-/* Event listener for form submit */
-// submit.addEventListener('submit', (event) => {
-//    event.preventDefault();
-//    searchForm(search, studentNames);
-// });
 
 // Call functions
 showPage(data, 1);
