@@ -2,9 +2,10 @@
 Student Roster application - A project using data pagination and filtering
 */
 
+const itemsPerPage = 9;
+
 // Function to display a page
 function showPage(list, page) {
-   const itemsPerPage = 9;
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = (page * itemsPerPage);
    const studentList = document.querySelector('ul.student-list');
@@ -13,16 +14,15 @@ function showPage(list, page) {
    // Determine if items will display on the active page
    for (let i = 0; i < list.length; i++) {
       
-      // If items are in the page index range
+      // Display items on page if items are in the page index range
       if (i >= startIndex && i < endIndex) {
          
-         // Display items on page
          const student = list[i];
          studentList.innerHTML += `
             <li class="student-item">
                
                <div class="student-details">
-                  <img class="avatar" src="${student.picture.large}">
+                  <!-- <img class="avatar" src="${student.picture.large}"> -->
                   <h3>${student.name.first} ${student.name.last}</h3>
                   <span class="email">${student.email}</span>
                </div>
@@ -37,28 +37,28 @@ function showPage(list, page) {
    }
 }
 
-// Function to create and append pagination buttons
+// Create and append pagination buttons
 function addPagination(list) {
-   const numberOfPages = Math.ceil((list.length / 9));
+   const numberOfPages = Math.ceil((list.length / itemsPerPage));
    const ul = document.querySelector('ul.link-list');
    ul.innerHTML = ''; // remove buttons previously displayed
 
    // Create page buttons
    for (let i = 0; i < numberOfPages; i++) {
       let pageNumber = i + 1; // page numbers start at 1
-      const li = document.createElement('li');
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.textContent = pageNumber;
-
+      ul.innerHTML += `
+         <li>
+            <button type="button">${pageNumber}</button>
+         </li>   
+         `;
+      
       // Set first page button to active
-      if (pageNumber === 1) {button.classList.add('active')}
-
-      // Append LIs and buttons
-      li.appendChild(button);
-      ul.appendChild(li);
+      if (pageNumber === 1) { 
+         const button = ul.querySelector('li button');
+         button.className = 'active';
+      }
    }
-
+   
    // Event listener for page buttons
    ul.addEventListener('click', (e) => {
       const button = e.target;
@@ -75,34 +75,18 @@ function addPagination(list) {
    });
 }
 
-// Function to create a search form and append to header
-(function createSearchForm() {
-
-   // Create elements and select 'header' parent node
-   const label = document.createElement('label');
-   const span = document.createElement('span');
-   const input = document.createElement('input');
-   const button = document.createElement('button');
-   const img = document.createElement('img');
+// Create a search form and append to header
+(function() {
    const header = document.querySelector('header');
-
-   // Set element property values
-   label.for = 'search';
-   label.classList.add('student-search');
-   span.textContent = 'Search by name';
-   input.classList.add('search');
-   input.placeholder = 'Search by name...';
-   button.type = 'button';
-   button.classList.add('submit');
-   img.src = 'img/icn-search.svg';
-   img.alt = 'Search icon';
-
-   // Append to document
-   header.appendChild(label);
-   label.appendChild(span);
-   label.appendChild(input);
-   label.appendChild(button);
-   button.appendChild(img);
+   header.innerHTML += `
+      <label for="search" class="student-search">
+         <span>Search by name</span>
+         <input class="search" placeholder="Search by name...">
+         <button type="button" class="submit">
+            <img src="img/icn-search.svg" alt="Search icon">
+         </button>
+      </label>
+   `;
 })();
 
 /** Search form functionality */
