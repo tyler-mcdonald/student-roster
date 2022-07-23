@@ -1,9 +1,4 @@
-/*
-Treehouse Techdegree:
-FSJS Project 2 - Data Pagination and Filtering
-*/
-
-// Array of student objects
+/** Array of student objects */
 const data = [
   {
     name: {
@@ -718,5 +713,5 @@ const data = [
       medium: "https://randomuser.me/api/portraits/med/men/48.jpg",
       thumbnail: "https://randomuser.me/api/portraits/thumb/men/48.jpg",
     },
-  }
+  },
 ];
